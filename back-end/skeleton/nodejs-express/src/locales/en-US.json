@@ -1,0 +1,13 @@
+{
+    "invalidToken": "Invalid token",
+    "incorrectPassword": "Incorrect password. Please double-check and try again.",
+    "accountNotFound": "Sorry, we couldn't find your account. Please double-check your login information and try again. If you need further assistance, please contact support.",
+    "somethingWentWrong": "Something went wrong. Please try again later.",
+    "invalidRole": "Invalid role.",
+    "deactivatedAccount": "This account has been deactivated. Please contact support for assistance.",
+    "accountAlreadyExists": "This account already exists. Please choose a different username or email.",
+    "requestExpired": "Your request has been expired.",
+    "userIsNotExisting": "The user is not existing in the system",
+    "serverError": "An unexpected server error occurred, please try again.",
+    "userIsNotFound": "The user is not found"
+}

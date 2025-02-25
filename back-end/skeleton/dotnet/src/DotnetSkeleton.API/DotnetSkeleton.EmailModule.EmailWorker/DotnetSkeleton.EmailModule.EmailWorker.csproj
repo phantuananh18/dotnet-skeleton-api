@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-DotnetSkeleton.EmailModule.EmailWorker-1450c95f-998a-478f-b68a-bebc849c406f</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="appsettings.Debug.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetSkeleton.EmailModule.Domain\DotnetSkeleton.EmailModule.Domain.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.EmailModule.Infrastructure\DotnetSkeleton.EmailModule.Infrastructure.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.SharedKernel.Utils\DotnetSkeleton.SharedKernel.Utils.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.Utils.RabbitMqService\DotnetSkeleton.Utils.RabbitMqService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\MailTemplates\ResetPassword.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MailTemplates\ResetPasswordSuccess.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MailTemplates\WelcomeEmail.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+</Project>

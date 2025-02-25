@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>fc899f16-e2b0-458e-962b-c5260f5fb996</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetSkeleton.API\DotnetSkeleton.API.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.EmailModule.API\DotnetSkeleton.EmailModule.API.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.IdentityModule.API\DotnetSkeleton.IdentityModule.API.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.MessageModule.API\DotnetSkeleton.MessageModule.API.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.Orchestration.APIGateway\DotnetSkeleton.Orchestration.APIGateway.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.UserModule.API\DotnetSkeleton.UserModule.API.csproj" />
+  </ItemGroup>
+
+</Project>

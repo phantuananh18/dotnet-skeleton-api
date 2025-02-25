@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="appsettings.Debug.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="MongoDB.EntityFrameworkCore" Version="8.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="System.Threading.RateLimiting" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetSkeleton.EmailModule.Application\DotnetSkeleton.EmailModule.Application.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.EmailModule.Domain\DotnetSkeleton.EmailModule.Domain.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.EmailModule.Infrastructure\DotnetSkeleton.EmailModule.Infrastructure.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.Orchestration.ServiceDefaults\DotnetSkeleton.Orchestration.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.SharedKernel.Utils\DotnetSkeleton.SharedKernel.Utils.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.Utils.RabbitMqService\DotnetSkeleton.Utils.RabbitMqService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\MailTemplates\ResetPassword.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MailTemplates\ResetPasswordSuccess.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MailTemplates\WelcomeEmail.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

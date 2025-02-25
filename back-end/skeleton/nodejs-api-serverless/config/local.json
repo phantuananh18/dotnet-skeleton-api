@@ -1,0 +1,19 @@
+{
+    "serviceName": "magic-tree-admin",
+    "stage": "local",
+    "apig": {
+        "origin": "*",
+        "headers": "*",
+        "methods": "*"
+    },
+    "mysql": {
+        "host": "52.91.246.136",
+        "port": 3306,
+        "username": "magictreedev",
+        "password": "12345678x@X",
+        "database": "MagicTree"
+    },
+    "s3": {
+        "metadataBucketName": "magictree-metadata-dev"
+    }
+}

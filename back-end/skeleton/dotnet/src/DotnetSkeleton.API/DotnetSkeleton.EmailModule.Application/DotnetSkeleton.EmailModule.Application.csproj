@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
+    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.68.0.3427" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetSkeleton.EmailModule.Domain\DotnetSkeleton.EmailModule.Domain.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.EmailModule.Infrastructure\DotnetSkeleton.EmailModule.Infrastructure.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.SharedKernel.Utils\DotnetSkeleton.SharedKernel.Utils.csproj" />
+    <ProjectReference Include="..\DotnetSkeleton.Utils.RabbitMqService\DotnetSkeleton.Utils.RabbitMqService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="HealthChecks\" />
+    <Folder Include="Mappings\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>

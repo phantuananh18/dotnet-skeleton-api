@@ -1,0 +1,121 @@
+name: dc8-framework-api-${DEPLOYMENT_ENV}
+
+services:
+  dotnet-api:
+    image: dotnet-api-${DEPLOYMENT_ENV}
+    container_name: dotnet-api-${DEPLOYMENT_ENV}
+    hostname: dotnet-api-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    ports:
+      - ${DOTNET_API_PORT}:8080
+    build:
+      context: ../../../../dotnet/src/DotnetSkeleton.API
+      dockerfile: ./containers/Dockerfile.CoreModule
+      args:
+        - BUILD_CONFIGURATION=${ENVIRONMENT}
+    depends_on:
+      - dotnet-api-user-module
+      - dotnet-api-identity-module
+      - dotnet-api-email-module
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v1/ping"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 1m
+
+  dotnet-email-worker:
+    image: dotnet-email-worker-${DEPLOYMENT_ENV}
+    container_name: dotnet-email-worker-${DEPLOYMENT_ENV}
+    hostname: dotnet-email-worker-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    ports:
+      - ${DOTNET_EMAIL_WORKER_PORT}:8080
+    build:
+      context: ../../../../dotnet/src/DotnetSkeleton.API
+      dockerfile: ./containers/Dockerfile.EmailWorker
+      args:
+        - BUILD_CONFIGURATION=${ENVIRONMENT}
+
+  nodejs-api:
+    image: nodejs-api-${DEPLOYMENT_ENV}
+    container_name: nodejs-api-${DEPLOYMENT_ENV}
+    hostname: nodejs-api-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    ports:
+      - ${NODEJS_API_PORT}:3000
+    build:
+      context: ../../../../nodejs-express
+      dockerfile: Dockerfile.dev
+
+  dotnet-api-user-module:
+    image: dotnet-api-user-module-${DEPLOYMENT_ENV}
+    container_name: dotnet-api-user-module-${DEPLOYMENT_ENV}
+    hostname: dotnet-api-user-module-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    ports:
+      - ${DOTNET_API_USER_MODULE_PORT}:8080
+    build:
+      context: ../../../../dotnet/src/DotnetSkeleton.API
+      dockerfile: ./containers/Dockerfile.UserModule
+      args:
+        - BUILD_CONFIGURATION=${ENVIRONMENT}
+
+  dotnet-api-identity-module:
+    image: dotnet-api-identity-module-${DEPLOYMENT_ENV}
+    container_name: dotnet-api-identity-module-${DEPLOYMENT_ENV}
+    hostname: dotnet-api-identity-module-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    ports:
+      - ${DOTNET_API_IDENTITY_MODULE_PORT}:8080
+    build:
+      context: ../../../../dotnet/src/DotnetSkeleton.API
+      dockerfile: ./containers/Dockerfile.IdentityModule
+      args:
+        - BUILD_CONFIGURATION=${ENVIRONMENT}
+
+  dotnet-api-email-module:
+    image: dotnet-api-email-module-${DEPLOYMENT_ENV}
+    container_name: dotnet-api-email-module-${DEPLOYMENT_ENV}
+    hostname: dotnet-api-email-module-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    ports:
+      - ${DOTNET_API_EMAIL_MODULE_PORT}:8080
+    build:
+      context: ../../../../dotnet/src/DotnetSkeleton.API
+      dockerfile: ./containers/Dockerfile.EmailModule
+      args:
+        - BUILD_CONFIGURATION=${ENVIRONMENT}
+
+  dotnet-api-message-module:
+    image: dotnet-api-message-module-${DEPLOYMENT_ENV}
+    container_name: dotnet-api-message-module-${DEPLOYMENT_ENV}
+    hostname: dotnet-api-message-module-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    ports:
+      - ${DOTNET_API_MESSAGE_MODULE_PORT}:8080
+    build:
+      context: ../../../../dotnet/src/DotnetSkeleton.API
+      dockerfile: ./containers/Dockerfile.MessageModule
+      args:
+        - BUILD_CONFIGURATION=${ENVIRONMENT}
+
+networks:
+  dc8-framework:
+    name: dc8-framework-${DEPLOYMENT_ENV}
+    driver: bridge
+    external: true

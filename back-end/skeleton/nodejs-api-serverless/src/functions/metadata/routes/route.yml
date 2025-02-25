@@ -1,0 +1,59 @@
+name: ${self:provider.stage}-${self:service}-metadata
+handler: ./src/functions/metadata/routes/MetadataHandler.run
+description: The Lambda function for Metadata
+memorySize: 512
+runtime: nodejs20.x
+timeout: 30
+
+environment:
+  NODE_ENV: ${self:provider.stage}
+
+events:
+  - http:
+      path: api/${self:custom.api-version}/metadatas
+      method: get
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/metadatas/{id}
+      method: get
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/metadatas
+      method: post
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/metadatas/{id}
+      method: put
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/metadatas/order-number
+      method: put
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/metadatas/{id}
+      method: delete
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer

@@ -1,0 +1,36 @@
+# Base image with .NET runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+
+# Build image with .NET SDK
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION
+
+# Set the working directory
+WORKDIR /src/email-worker
+COPY ["./DotnetSkeleton.EmailModule.EmailWorker/*", "/DotnetSkeleton.EmailModule.EmailWorker/"]
+COPY ["./DotnetSkeleton.EmailModule.Application/*", "/DotnetSkeleton.EmailModule.Application/"]
+COPY ["./DotnetSkeleton.EmailModule.Domain/*", "/DotnetSkeleton.EmailModule.Domain/"]
+COPY ["./DotnetSkeleton.EmailModule.Infrastructure/*", "/DotnetSkeleton.EmailModule.Infrastructure/"]
+COPY ["./DotnetSkeleton.Utils.RabbitMqService/*", "/DotnetSkeleton.Utils.RabbitMqService/"]
+COPY ["./DotnetSkeleton.SharedKernel.Utils/*", "/DotnetSkeleton.SharedKernel.Utils/"]
+
+# Restore and build the project
+WORKDIR /DotnetSkeleton.EmailModule.EmailWorker/
+RUN dotnet restore "./DotnetSkeleton.EmailModule.EmailWorker.csproj"
+COPY ./DotnetSkeleton.EmailModule.EmailWorker/* .
+
+RUN ls -a
+RUN dotnet build "./DotnetSkeleton.EmailModule.EmailWorker.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Publish the application
+FROM build AS publish
+ARG BUILD_CONFIGURATION
+RUN dotnet publish "./DotnetSkeleton.EmailModule.EmailWorker.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Final image
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "DotnetSkeleton.EmailModule.EmailWorker.dll"]

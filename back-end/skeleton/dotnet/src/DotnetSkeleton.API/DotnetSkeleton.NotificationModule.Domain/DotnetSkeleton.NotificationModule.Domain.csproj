@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\Dtos\" />
+    <Folder Include="Model\Responses\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="8.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetSkeleton.SharedKernel.Utils\DotnetSkeleton.SharedKernel.Utils.csproj" />
+  </ItemGroup>
+
+ <ItemGroup>
+	 <FrameworkReference Include="Microsoft.AspNetCore.App" />
+ </ItemGroup>
+
+ <ItemGroup>
+   <Compile Update="Resources\Resources.Designer.cs">
+     <DesignTime>True</DesignTime>
+     <AutoGen>True</AutoGen>
+     <DependentUpon>Resources.resx</DependentUpon>
+   </Compile>
+ </ItemGroup>
+
+ <ItemGroup>
+   <EmbeddedResource Update="Resources\Resources.resx">
+     <Generator>PublicResXFileCodeGenerator</Generator>
+     <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+   </EmbeddedResource>
+ </ItemGroup>
+
+</Project>

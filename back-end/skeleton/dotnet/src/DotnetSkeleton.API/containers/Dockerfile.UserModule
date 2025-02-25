@@ -1,0 +1,31 @@
+# This stage is used to build the service project
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION
+
+WORKDIR "/src/user/"
+
+COPY ["./DotnetSkeleton.UserModule.API/*", "/DotnetSkeleton.UserModule.API/"]
+COPY ["./DotnetSkeleton.UserModule.Application/*", "/DotnetSkeleton.UserModule.Application/"]
+COPY ["./DotnetSkeleton.UserModule.Domain/*", "/DotnetSkeleton.UserModule.Domain/"]
+COPY ["./DotnetSkeleton.UserModule.Infrastructure/*", "/DotnetSkeleton.UserModule.Infrastructure/"]
+COPY ["./DotnetSkeleton.Orchestration.ServiceDefaults/*", "/DotnetSkeleton.Orchestration.ServiceDefaults/"]
+COPY ["./DotnetSkeleton.SharedKernel.Utils/*", "/DotnetSkeleton.SharedKernel.Utils/"]
+COPY ["./DotnetSkeleton.Utils.RedisService/*", "/DotnetSkeleton.Utils.RedisService/"]
+
+WORKDIR /DotnetSkeleton.UserModule.API/
+
+RUN dotnet restore "./DotnetSkeleton.UserModule.API.csproj"
+COPY ./DotnetSkeleton.UserModule.API/* .
+
+RUN dotnet build "./DotnetSkeleton.UserModule.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# This stage is used to publish the service project to be copied to the final stage
+FROM build AS publish
+ARG BUILD_CONFIGURATION
+RUN dotnet publish "./DotnetSkeleton.UserModule.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS api
+WORKDIR /app/users
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "DotnetSkeleton.UserModule.API.dll"]

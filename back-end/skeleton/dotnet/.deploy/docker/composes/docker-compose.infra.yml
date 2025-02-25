@@ -1,0 +1,51 @@
+name: dc8-framework-infrastructure-${DEPLOYMENT_ENV}
+
+services:
+  redis:
+    image: redis:latest
+    container_name: dwf-redis-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redis_data:/data
+    restart: always
+    stop_grace_period: 1m
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 30s
+      retries: 3
+      start_period: 1m
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: dwf-rabbitmq-${DEPLOYMENT_ENV}
+    hostname: dwf-rabbitmq-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    ports:
+      - ${RABBITMQ_PORT}:5672
+      - ${RABBITMQ_MGT_PORT}:15672
+    restart: always
+    stop_grace_period: 1m
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 15s
+      timeout: 30s
+      retries: 3
+      start_period: 1m
+
+volumes:
+  redis_data:
+
+networks:
+  dc8-framework:
+    name: dc8-framework-${DEPLOYMENT_ENV}
+    driver: bridge
+    external: true

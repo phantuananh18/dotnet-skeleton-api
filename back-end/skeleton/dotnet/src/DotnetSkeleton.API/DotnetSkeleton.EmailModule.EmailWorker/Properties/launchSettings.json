@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "DotnetSkeleton.EmailModule.EmailWorker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Debug"
+      },
+      "dotnetRunMessages": true
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json"
+}

@@ -1,0 +1,30 @@
+# This stage is used to build the service project
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION
+
+WORKDIR "/src/message/"
+
+COPY ["./DotnetSkeleton.MessageModule.API/*", "/DotnetSkeleton.MessageModule.API/"]
+COPY ["./DotnetSkeleton.MessageModule.Application/*", "/DotnetSkeleton.MessageModule.Application/"]
+COPY ["./DotnetSkeleton.MessageModule.Domain/*", "/DotnetSkeleton.MessageModule.Domain/"]
+COPY ["./DotnetSkeleton.MessageModule.Infrastructure/*", "/DotnetSkeleton.MessageModule.Infrastructure/"]
+COPY ["./DotnetSkeleton.Orchestration.ServiceDefaults/*", "/DotnetSkeleton.Orchestration.ServiceDefaults/"]
+COPY ["./DotnetSkeleton.SharedKernel.Utils/*", "/DotnetSkeleton.SharedKernel.Utils/"]
+
+WORKDIR /DotnetSkeleton.MessageModule.API/
+
+RUN dotnet restore "./DotnetSkeleton.MessageModule.API.csproj"
+COPY ./DotnetSkeleton.MessageModule.API/* .
+
+RUN dotnet build "./DotnetSkeleton.MessageModule.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# This stage is used to publish the service project to be copied to the final stage
+FROM build AS publish
+ARG BUILD_CONFIGURATION
+RUN dotnet publish "./DotnetSkeleton.MessageModule.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS api
+WORKDIR /app/users
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "DotnetSkeleton.MessageModule.API.dll"]

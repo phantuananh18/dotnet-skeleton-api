@@ -1,0 +1,68 @@
+name: dc8-framework-database-${DEPLOYMENT_ENV}
+
+services:
+  mysqldb:
+    image: dwf-mysql-${DEPLOYMENT_ENV}
+    container_name: dwf-mysql-${DEPLOYMENT_ENV}
+    hostname: dwf-mysql-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    stop_grace_period: 1m
+    ports:
+      - ${MYSQL_PORT}:3306
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile.MySQL
+      args:
+        - DEPLOYMENT_ENV=${DEPLOYMENT_ENV}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root --silent"]
+      interval: 15s
+      timeout: 30s
+      retries: 3
+      start_period: 1m
+
+  mongodb:
+    image: dwf-mongo-${DEPLOYMENT_ENV}
+    container_name: dwf-mongo-${DEPLOYMENT_ENV}
+    hostname: dwf-mongo-${DEPLOYMENT_ENV}
+    networks:
+      - dc8-framework
+    restart: always
+    stop_grace_period: 1m
+    ports:
+      - ${MONGO_PORT}:27017
+    build:
+      context: ./MongoDB
+      dockerfile: Dockerfile.MongoDB
+      args:
+        - DEPLOYMENT_ENV=${DEPLOYMENT_ENV}
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongo --eval \"db.stats()\""]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mysql_data:
+  mongo_data:
+
+networks:
+  dc8-framework:
+    name: dc8-framework-${DEPLOYMENT_ENV}
+    driver: bridge
+    external: true

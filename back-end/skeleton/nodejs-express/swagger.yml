@@ -1,0 +1,483 @@
+openapi: '3.0.2'
+info:
+  title: NodeJS API
+  version: '1.0'
+  description: This is a simple CRUD API application made with Express and documented with Swagger
+servers:
+  - url: http://11.11.7.81:3001/api/v1
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Enter the JWT'
+  schemas:
+    UserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username.
+          example: username.abc
+        email:
+          type: string
+          description: The user email.
+          format: email
+          example: abc@xyz.com
+        password:
+          type: string
+          format: password
+          description: The user password
+          example: 31245679889798xasd@ada
+        firstName:
+          type: string
+          description: The user first first name
+          example: John
+        lastName:
+          type: string
+          description: The user first last name
+          example: Wick
+        mobilePhone:
+          type: string
+          description: The user phone
+          example: 596532445
+        department:
+          type: string
+          description: The user department
+          example: null
+        jobTitle:
+          type: string
+          description: The user job
+          example: null
+        role:
+          type: string
+          description: The user role
+          enum:
+            - Client
+            - Admin
+            - System
+          example: Client
+    UserResponse:
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: The user ID.
+          example: 1
+        username:
+          type: string
+          description: The username.
+          example: Leanne Graham
+        email:
+          type: string
+          description: The user email.
+          format: email
+          example: abc@xyz.com
+        firstName:
+          type: string
+          description: The user first first name
+          example: John
+        lastName:
+          type: string
+          description: The user first last name
+          example: Wick
+        mobilePhone:
+          type: string
+          description: The user phone
+          example: 59653244521
+        department:
+          type: string
+          description: The user department
+          example: null
+        jobTitle:
+          type: string
+          description: The user job
+          example: null
+        createdDate:
+          type: string
+          description: The date the user is created
+          example: 2024-04-04T21:50:47.000Z
+        updatedDate:
+          type: string
+          description: The date the user is updated
+          example: 2024-04-04T21:50:47.000Z
+        createdBy:
+          type: integer
+          description: The date the user is updated
+          example: 2024-04-04T21:50:47.000Z
+        updatedBy:
+          type: integer
+          description: The date the user is updated
+          example: 2024-04-04T21:50:47.000Z
+        isDeleted:
+          type: boolean
+          description: The flag represents for the delete status of user
+    SignInRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: The username
+        password:
+          type: string
+          description: The password
+          format: password
+    SignInResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: The access token
+        refreshToken:
+          type: string
+          description: The refresh token
+    RefreshTokenRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          description: The refresh token
+    ResetPasswordRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          description: The password
+        passwordConfirmation:
+          type: string
+          format: password
+          description: The password confirmation
+
+tags:
+  - name: User
+    description: The User managing API
+  - name: Auth
+    description: The Auth managing API
+  - name: Ping
+    description: The Ping managing API
+
+paths:
+  /ping:
+    get:
+      summary: 'Ping the server'
+      tags: [Ping]
+      responses:
+        200:
+          description: Pong
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Pong
+  # User path
+  /user:
+    get:
+      summary: 'Get a list of user'
+      tags: [User]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: A list of user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+                  data:
+                    type: array
+                    description: A list of user
+                    items:
+                      $ref: '#/components/schemas/UserResponse'
+  /user/{id}:
+    get:
+      summary: 'Get an existing user'
+      tags: [User]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: An existing user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/UserResponse'
+    post:
+      summary: 'Create a new user'
+      tags: [User]
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: A list of user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+                  data:
+                    type: object
+                    description: A created user
+                    $ref: '#/components/schemas/UserResponse'
+    put:
+      summary: 'Update an existing user'
+      tags: [User]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: A list of user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+                  data:
+                    type: object
+                    description: An updated user
+                    $ref: '#/components/schemas/UserResponse'
+    delete:
+      summary: 'Delete an existing user'
+      tags: [User]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A list of user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+                  data:
+                    type: object
+                    description: A deleted user
+                    $ref: '#/components/schemas/UserResponse'
+
+  # Auth path
+  /auth/sign-in:
+    post:
+      summary: 'Sign-in by the username and password'
+      tags: [Auth]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInRequest'
+      responses:
+        200:
+          description: Sign-in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+                  data:
+                    type: object
+                    description: A created user
+                    $ref: '#/components/schemas/SignInResponse'
+  /auth/sign-up:
+    post:
+      summary: 'Sign-up the new account'
+      tags: [Auth]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: Sign-in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+                  data:
+                    type: object
+                    description: A created user
+                    $ref: '#/components/schemas/UserResponse'
+  /auth/refresh-token:
+    post:
+      summary: 'Refresh the access token'
+      tags: [Auth]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        200:
+          description: Refresh the access token successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+                  data:
+                    type: object
+                    description: A new access token
+                    properties:
+                      accessToken:
+                        type: string
+                        description: The access token
+  /auth/forgot-password/{email}:
+    post:
+      summary: 'Send email to reset password'
+      tags: [Auth]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        200:
+          description: Send reset email successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK
+  /auth/reset-password:
+    post:
+      summary: 'Reset to new password'
+      tags: [Auth]
+      parameters:
+        - in: query
+          name: token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        200:
+          description: Reset password successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The status code
+                    example: 200
+                  code:
+                    type: string
+                    description: The text status
+                    example: OK

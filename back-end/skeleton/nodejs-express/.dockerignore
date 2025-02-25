@@ -1,0 +1,46 @@
+# Ignoring common IDE and editor files
+**/.classpath
+**/.dockerignore
+
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+
+# Ignore user-specific project settings
+**/*.*proj.user
+
+# Ignore database model and configuration files
+**/*.dbmdl
+**/*.jfm
+
+# Ignore Azure Dev Spaces YAML
+**/azds.yaml
+
+# Ignore build artifacts and directories
+**/bin
+**/charts
+**/docker-compose*
+**/Dockerfile*
+**/node_modules
+**/npm-debug.log
+**/obj
+
+# Ignore environment-specific secrets
+**/.env
+**/secrets.dev.yaml
+**/values.dev.yaml
+
+# Ignore documentation files
+LICENSE
+README.md
+
+# Do not ignore specific .git files necessary for Docker to interact with the repository
+!**/.gitignore
+!.git/HEAD
+!.git/config
+!.git/packed-refs
+!.git/refs/heads/**

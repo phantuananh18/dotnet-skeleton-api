@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "allowJs" : true,
+        "declaration": true,
+        "esModuleInterop": true,
+        "module": "commonjs",
+        "target": "es2019",
+        "lib": ["es2019"],
+        "types": ["node"],
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": ".build",
+        "resolveJsonModule": true,
+        "removeComments": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strictNullChecks": false,
+        "preserveConstEnums": true,
+        "rootDir": "./",
+        "skipLibCheck": true
+    },
+    "resolve": {
+        "extensions": [".ts"],
+    },
+    "include": [
+      "./src/**/*"
+    ],
+    "exclude": [ "node_modules" ],
+    "types": [ "typePatches" ]
+  }

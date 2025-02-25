@@ -1,0 +1,16 @@
+name: ${self:provider.stage}-${self:service}-user
+handler: ./src/functions/user/routes/UserHandler.run
+description: The Lambda function for User
+memorySize: 512
+runtime: nodejs20.x
+timeout: 30
+
+events:
+  - http:
+      path: api/${self:custom.api-version}/users
+      method: get
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer

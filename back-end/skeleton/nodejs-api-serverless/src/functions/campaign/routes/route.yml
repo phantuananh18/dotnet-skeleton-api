@@ -1,0 +1,51 @@
+name: ${self:provider.stage}-${self:service}-campaign
+handler: ./src/functions/campaign/routes/CampaignHandler.run
+description: The Lambda function for Campaign
+memorySize: 512
+runtime: nodejs20.x
+timeout: 30
+
+environment:
+  NODE_ENV: ${self:provider.stage}
+
+events:
+  - http:
+      path: api/${self:custom.api-version}/campaigns
+      method: get
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/campaigns/{id}
+      method: get
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/campaigns
+      method: post
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/campaigns/{id}
+      method: put
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer
+  - http:
+      path: api/${self:custom.api-version}/campaigns/{id}
+      method: delete
+      cors: ${self:custom.cors}
+      authorizer:
+        type: COGNITO_USER_POOLS
+        authorizerId: 
+          Ref: AdminApiGatewayAuthorizer

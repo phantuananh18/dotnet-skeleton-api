@@ -1,0 +1,39 @@
+{
+    "env": {
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "quotes": ["error", "single", "avoid-escape"],
+        "indent": ["error", 4, { "SwitchCase": 1 } ],
+        "semi": ["error", "always"],
+        "no-use-before-define": "error",
+        "camelcase": "warn",
+        "curly": "warn",
+        "no-console": "error",
+        "no-continue": "error",
+        "no-empty": "error",
+        "no-empty-function": "error",
+        "no-eval": "error",
+        "no-script-url": "error",
+        "no-var": "error",
+        "no-with": "error",
+        "yoda": "warn",
+        "prefer-const": "warn",
+        "no-useless-return": "warn",
+        "no-useless-constructor": "warn",
+        "no-shadow": "error",
+        "no-return-assign": "error",
+        "no-lonely-if": "warn",
+        "no-labels": "error",
+        "no-else-return": "warn",
+        "max-nested-callbacks": ["error", { "max": 3 }],
+        "comma-dangle": "error",
+        "no-multi-spaces": "error",
+        "no-useless-escape": "off"
+    }
+}

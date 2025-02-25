@@ -1,0 +1,13 @@
+{
+    "invalidToken": "Jeton invalide",
+    "incorrectPassword": "Mot de passe incorrect. Veuillez revérifier et réessayer.",
+    "accountNotFound": "Désolé, nous n'avons pas trouvé votre compte. Veuillez vérifier vos informations de connexion et réessayer. Si vous avez besoin d'aide supplémentaire, veuillez contacter l'assistance.",
+    "somethingWentWrong": "Quelque chose s'est mal passé. Veuillez réessayer plus tard.",
+    "invalidRole": "Rôle invalide.",
+    "deactivatedAccount": "Ce compte a été désactivé. Veuillez contacter le support pour obtenir de l'aide.",
+    "accountAlreadyExists": "Ce compte existe déjà. Veuillez choisir un autre nom d'utilisateur ou une autre adresse e-mail.",
+    "requestExpired": "Votre demande a expiré.",
+    "userIsNotExisting": "L'utilisateur n'existe pas dans le système",
+    "serverError": "Une erreur de serveur inattendue s'est produite, veuillez réessayer.",
+    "userIsNotFound": "L'utilisateur est introuvable"
+}
